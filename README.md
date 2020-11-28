@@ -6,9 +6,11 @@ La obtención de probabilidades de incumplimiento es una parte fundamental en la
 
 
 
+
 ### 1. Objetivo:
 
 Análisis de las Probabilidades de Incumplimiento de créditos hipotecarios de Estados Unidos para identificar periodos de crisis y propuesta de credit scoring, mediante el uso de las herramientas vistas en el curso de Análisis Numérico y Computo Científico.
+
 
 
 
@@ -75,6 +77,7 @@ status_time = 1 default, 2 payoff, 0 otherwise
 lgd_time = Loss given default al momento del default
 
 recovery_res = Suma de los flujos recibidos durante el periodo de resolución
+
 
 
 
