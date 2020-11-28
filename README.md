@@ -86,11 +86,13 @@ recovery_res = Suma de los flujos recibidos durante el periodo de resolución
 a. Análisis exploratorio de la base de datos.
 
 b. Selección de variables usando distintas herramientas: "Feature Enginering".
+	
 	b.1 Análisis de Probabilidades de incumplimiento en el tiempo : PCA.
 	
 	b.2 Credit Scoring: Mapeo WOE (weight of evidence) para obtención de Information Value.
 	
 c. Modelo de Regresión Logística para obtención de Probabilidades de incumplimiento en el tiempo.
+	
 	c.1 Selección de Técnica.
 	
 	c.2 Obtención de Parámetros.
@@ -100,6 +102,7 @@ c. Modelo de Regresión Logística para obtención de Probabilidades de incumpli
 	c.4 Proyección o estimación.
 	
 d. Modelo de Regresión para uso en Credit Scoring (sobre el mapeo de WOEś).
+	
 	d.1 Selección de Técnica.
 	
 	d.2 Obtención de Parámetros.
