@@ -12,33 +12,60 @@ Se utilizará la información de 60 trimestres de 5000 créditos hipotecarios de
 La base tiene los siguientes campos:
 
 id = Identificador
+
 time = Periodo observado (0 corresponde al 2000, 1 al primer trimestre del 2000, etc, etc)
+
 orig_time = Periodo en el que se originó el crédito (si se originó antes del 2000, el número es negativo)
-first_time = Primer periodo en el que aparece el crédito en la base.
+
+first_time = Primer periodo en el que aparece el crédito en la base
+
 mat_time = Plazo del crédito	
+
 res_time = Periodo en el que se recuperó la vivienda
+
 balance_time = Saldo en el periodo de observación
+
 LTV_time = Loan to Value a la originación
+
 interest_rate_time = Tasa de interés en el periodo de observación
+
 rate_time = Tasa libre de riesgo en el periodo de observación
+
 hpi_time = Indice de precios de casas en el periodo de observación
+
 gdp_time = Tasa de crecimiento del PIB en el periodo de observación
+
 uer_time = Tasa de desempleo en el momento de la valuación
+
 REtype_CO_orig_time = Real state type (condominio 1, otherwise 0)
+
 REtype_PU_orig_time = Real state type	(desarrollo urbano 1, othrwise 0)
+
 REtype_SF_orig_time = Real state type	(vivienda para una sola familia 1, otherwise 0)
-investor_orig_time = desarrollador 1, otherwise 0	
+
+investor_orig_time = desarrollador 1, otherwise 0
+
 balance_orig_time = Monto del crédito	
+
 FICO_orig_time = FICO score en el momento de originar	
+
 LTV_orig_time = Loan to Value en el momento de la orriginación	
-Interest_Rate_orig_time = Tasa de interés en el momento de la originación.	
+
+Interest_Rate_orig_time = Tasa de interés en el momento de la originación
+
 state_orig_time = Estado de la unión americana donde sse encuentra la vivienda	
-hpi_orig_time = Indice de precios de casa en el momento de la originación	
+
+hpi_orig_time = Indice de precios de casa en el momento de la originación
+
 default_time = 1 se es default	
-payoff_time = 1 si es liquidación	
-status_time = 1 default, 2 payoff, 0 otherwise.	
-lgd_time = Loss given default al momento del default	
-recovery_res = Suma de los flujos recibidos durante el periodo de resolución.
+
+payoff_time = 1 si es liquidación
+
+status_time = 1 default, 2 payoff, 0 otherwise
+
+lgd_time = Loss given default al momento del default
+
+recovery_res = Suma de los flujos recibidos durante el periodo de resolución
 
 ### 3. Temas
 a. Análisis exploratorio de la base de datos.
