@@ -97,8 +97,8 @@ Siddiqi, Naeem. Credit Risk Scorecards, Developing and Implementing Credit Scori
 
 ## Integrantes del equipo
 
-|User | Nombre Completo|Tarea
-|:---:|:---:|:---:
+|User | Nombre Completo|Tarea|
+|:---:|:---:|:---:|
 |@oaperez3|Oscar Perez|Programacion y resolucion de problema de optimización|
 |@Eduardo-Moreno|Eduardo Moreno|Por determinar|
 |@yefovar|Yedam Fortiz|Por determinar|
