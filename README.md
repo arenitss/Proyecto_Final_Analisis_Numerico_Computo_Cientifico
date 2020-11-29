@@ -15,7 +15,7 @@ Identificar **periodos de crisis** y propuesta de **credit scoring** mediante el
 
 ### 2. Datos:
 
-Se utilizará la información de 60 trimestres de 5,000 créditos hipotecarios de Estados Unidos tomada de protafolios bursatilizado (RMBSs) a partir del año 2000 (hasta 2015). El proveedor de la base es la instutición estadounidense (**International Financial Reasearch**)[www.internationalfinancialreaserch.org]. Cabe mencionar, que se  tiene acceso a ella por la adquisición del libro *Deep Credit Risk de Daniel Rosch y Harald Scheule*, el cual es la principal fuente de este proyecto.
+Se utilizará la información de 60 trimestres de 5,000 créditos hipotecarios de Estados Unidos tomada de protafolios bursatilizado (RMBSs) a partir del año 2000 (hasta 2015). El proveedor de la base es la instutición estadounidense [**International Financial Reasearch**](www.internationalfinancialreaserch.org). Cabe mencionar, que se  tiene acceso a ella por la adquisición del libro *Deep Credit Risk de Daniel Rosch y Harald Scheule*, el cual es la principal fuente de este proyecto.
 
 A continuación, se enunciará y describirán las variables:
 
@@ -35,7 +35,7 @@ Dentro de la base de datos cada observación (*renglón*) corresponde a un prés
 
 1. *balance_time*.- saldo en el periodo de observación
 
-1. *LTV_time*.- Loan to Value a la originación (endeudamiento de un activo en relación con su valor real y actual). Para obtener una descripción más detallada se recomienda visitar el siguiente (link)[https://www.ilpabogados.com/que-es-el-loan-to-value-ltv-y-por-que-es-relevante/].
+1. *LTV_time*.- Loan to Value a la originación (endeudamiento de un activo en relación con su valor real y actual). Para obtener una descripción más detallada se recomienda visitar el siguiente [link](https://www.ilpabogados.com/que-es-el-loan-to-value-ltv-y-por-que-es-relevante/).
 
 1. *interest_rate_time*.- tasa de interés en el periodo de observación
 
@@ -57,7 +57,7 @@ Dentro de la base de datos cada observación (*renglón*) corresponde a un prés
 
 1. *balance_orig_time*.- monto del crédito
 
-1. *FICO_orig_time*.- (FICO score)[https://www.ficoscore.com/ficoscore/pdf/Understanding-FICO-Scores-SPANISH.pdf] en el momento de originar
+1. *FICO_orig_time*.- [FICO score](https://www.ficoscore.com/ficoscore/pdf/Understanding-FICO-Scores-SPANISH.pdf) en el momento de originar
 
 1. *LTV_orig_time*.- Loan to Value en el momento de la orriginación
 
@@ -73,7 +73,7 @@ Dentro de la base de datos cada observación (*renglón*) corresponde a un prés
 
 1. *status_time*.- 1 default, 2 payoff, 0 en otro caso
 
-1. *lgd_time*.- (Loss given default)[https://www.investopedia.com/terms/l/lossgivendefault.asp#:~:text=Loss%20given%20default%20(LGD)%20is,at%20the%20time%20of%20default.] o severidad  al momento del default
+1. *lgd_time*.- [Loss given default](https://www.investopedia.com/terms/l/lossgivendefault.asp#:~:text=Loss%20given%20default%20(LGD)%20is,at%20the%20time%20of%20default.) o severidad  al momento del default
 
 1. *recovery_res*.- suma de los flujos recibidos durante el periodo de resolución
 
