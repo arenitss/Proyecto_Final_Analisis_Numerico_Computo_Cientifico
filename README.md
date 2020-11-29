@@ -137,8 +137,11 @@ Python y AWS
 |User | Nombre Completo|
 |:---:|:---:|:---:|
 |@oaperez3|Oscar Perez|
+
 |@yefovar|Yedam Fortiz|
+
 |@arenitss|Nayeli Arenas|
+
 |@Eduardo-Moreno|Eduardo Moreno|
 
 
