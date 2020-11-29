@@ -135,7 +135,7 @@ Python y AWS
 ## Integrantes del equipo
 
 |User | Nombre Completo|
-|:---:|:---:|:---:|
+|:---:|:---:|
 |@oaperez3|Oscar Perez|
 |@Eduardo-Moreno|Eduardo Moreno|
 |@yefovar|Yedam Fortiz|
