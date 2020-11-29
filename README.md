@@ -128,6 +128,7 @@ Python y AWS
 
 ### 5. Bibliografía:
 *Rosch Daniel*, Scheule Harald. Deep Credit Risk. 2020. Amazon Fulfillment, Polonia.
+
 *Siddiqi, Naeem*. Credit Risk Scorecards, Developing and Implementing Credit Scoring. 2006. Wiley, New Jersey 
 
 
