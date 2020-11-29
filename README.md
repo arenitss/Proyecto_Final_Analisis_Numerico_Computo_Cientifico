@@ -9,7 +9,7 @@ La obtención de probabilidades de incumplimiento es una parte fundamental en la
 
 ### 1. Objetivo:
 
-Identificar **periodos de crisis* y propuesta de **credit scoring** mediante el análisis de probabilidad de default (o de incumplimiento) de créditos hipotecarios de Estados Unidos, mediante el uso de las herramientas vistas en el curso de Análisis Numérico y Computo Científico.
+Identificar **periodos de crisis** y propuesta de **credit scoring** mediante el análisis de probabilidad de default (o de incumplimiento) de créditos hipotecarios de Estados Unidos, mediante el uso de las herramientas vistas en el curso de Análisis Numérico y Computo Científico.
 
 
 
