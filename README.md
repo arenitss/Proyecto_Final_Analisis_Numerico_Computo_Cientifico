@@ -56,6 +56,7 @@ e. Conclusiones
 
 ### 4. Software
 Python y AWS
+Liga de la instancia: http://ec2-3-239-61-177.compute-1.amazonaws.com:8888/lab
 
 
 
