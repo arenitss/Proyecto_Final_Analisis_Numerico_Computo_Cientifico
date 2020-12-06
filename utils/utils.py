@@ -1,0 +1,230 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.metrics import classification_report,confusion_matrix, r2_score, make_scorer, \
+    mean_squared_error, mean_absolute_error,roc_curve,accuracy_score,roc_auc_score,brier_score_loss, \
+    precision_score, recall_score,f1_score, log_loss
+from scipy.stats import binom, beta, expon, mvn, randint as sp_randint, shapiro, ttest_ind, bernoulli, binom_test, \
+    pearsonr
+
+
+def woe(data_in, target, variable, bins, binning):
+    """
+    Cómputo del Weight of Evidence (woe)
+
+    input:
+    - data_in(df): dataframe con las variables necesarias para el cálculo
+    - target(str): variable target
+    - variable(str): variable
+    - bins(float): definición de intervalos de corte
+    - binning(boolean): indicadora para calcular o no los intervalos de corte
+    output:
+
+    """
+
+    df = data_in
+
+    # Selección de variables y eliminar valores faltantes
+    df2 = data_in[[target, variable]].rename(columns={target: 'Target', variable: 'Variable'}).dropna()
+
+    # Cálculo de intervalos del tipo: "(a, b]"
+    if binning:
+        df2['key'] = pd.qcut(df2.Variable, bins, labels=False, duplicates='drop')
+    else:
+        df2['key'] = df2.Variable
+
+    # Tabla cruzada para observaciones default y no default
+    table = pd.crosstab(df2.key, df2.Target, margins= True)
+    table = table.drop(['All'], axis=0)
+    table = table.rename(columns={1: 'deft', 0: 'nondeft'}).reset_index(drop=False)
+
+    # Agregar frecuencia relativa de default y no default
+    table.loc[:, 'fracdeft'] = table.deft /np.sum(table.deft)
+    table.loc[:, 'fracnondeft'] = table.nondeft /np.sum(table.nondeft)
+
+    # Cálculo del WOE y del IV
+    table.loc[:, 'WOE'] = np.log(table.fracdeft /table.fracnondeft)
+    table.loc[:, 'IV'] = (table.fracdeft -table.fracnondeft ) *table.WOE
+
+    # Renombrar variables
+    table.rename(columns={'WOE': variable}, inplace=True)
+    table =table.add_suffix('_WOE')
+    table.rename(columns={table.columns[0]: 'key' }, inplace = True)
+
+    # Construcción de dataset WOE
+    WOE = table.iloc[:, [0 ,-2]]
+    df = pd.merge(df, df2.key, right_index=True, left_index=True)
+    outputWOE = pd.merge(df, WOE, on='key').drop(['key'], axis=1)
+    # outputWOE = pd.merge(df, WOE, on='key')
+    outputIV = pd.DataFrame(data={'name': [variable], 'IV': table.IV_WOE.sum()})
+
+    return outputWOE, outputIV
+
+
+def validation(fit, outcome, time, continuous=False):
+    """
+    Evaluación y validación del modelo de regresión logística
+
+    input:
+    - fit(array): predicción del modelo de regresión logística
+    - outcome(array): variable dependiente original
+    - time(array): periodo de tiempo (en trimestres)
+    - continuos(boolean):
+
+    output:
+    - plot: conjunto de 4 gráficas para la evaluación y desempeño del modelo
+    """
+
+    # Configuración del plot: tamaño plot, tamaño de títulos
+    plt.rcParams['figure.dpi'] = 300
+    plt.rcParams['figure.figsize'] = (16, 9)
+    plt.rcParams.update({'font.size': 16})
+
+    # Selección en base a la clasificación en base al modelo
+    fitP = pd.DataFrame(data=fit)
+
+    # Selección en base a la clasificación en base a la variable dependiente
+    outcomeP = pd.DataFrame(data=outcome)
+
+    # Selección de tiempos (trimestres)
+    timeP = pd.DataFrame(data=time)
+
+    # Verificar que las observaciones a evaluar sean del correcto tipo
+    if isinstance(fit, pd.Series):
+        fit = fit.values
+    if isinstance(outcome, pd.Series):
+        outcome = outcome.values
+    if isinstance(time, pd.Series):
+        time = time.values
+
+    # Juntar las observaciones
+    data_in = pd.concat([fitP, outcomeP, timeP], axis=1)
+
+    # Cambiar nombre de columnas
+    data_in.columns = ['fit', 'outcome', 'time']
+
+    # Media por grupo (tiempo)
+    means = data_in.groupby('time')[['fit', 'outcome']].mean().reset_index(drop=False)
+
+    # Variable auxiliar de la variable dependiente
+    data_in['outcomeD'] = data_in.loc[:, 'outcome']
+
+    # Clasificación en base a la media del grupo
+    if continuous:
+        data_in.loc[data_in['outcome'] >= data_in.outcome.mean(), 'outcomeD'] = 1
+        data_in.loc[data_in['outcome'] < data_in.outcome.mean(), 'outcomeD'] = 0
+    outcomeD = data_in.loc[:, 'outcomeD'].values
+
+    # Inicialización de métricas de desempeño del modelo
+    lr_log_loss = np.nan
+    roc_auc = np.nan
+    brier = np.nan
+    binom_p = np.nan
+    Jeffreys_p = np.nan
+
+    max_outcome_fit = np.maximum(max(outcome), max(fit))
+    min_outcome_fit = np.minimum(min(outcome), min(fit))
+
+    # Cálculo de métricas de desempaño
+    if min_outcome_fit >= 0 and max_outcome_fit <= 1:
+        lr_log_loss = log_loss(outcomeD, fit).round(4)
+        roc_auc = roc_auc_score(outcomeD, fit).round(4)
+        binom_p = binom_test(sum(outcomeD), n=len(outcomeD), p=np.mean(fit), alternative='greater').round(decimals=4)
+        Jeffreys_p = beta.cdf(np.mean(fit), sum(outcomeD) + 0.5, len(outcomeD) - sum(outcomeD) + 0.5).round(decimals=4)
+
+    # Coeficiente de correlación lineal de Pearson
+    corr, _ = pearsonr(fit, outcome)
+    r2_OLS = corr ** 2
+
+    # Tabla de métricas de desempeño
+    the_table = [['Counts', len(outcome)],
+                 ['Mean outcome', (sum(outcome) / len(outcome)).round(4)],
+                 ['Mean fit', np.mean(fit).round(4)],
+                 ['AUC ', roc_auc],
+                 ['R-squared (OLS)', round(r2_OLS, 4)],
+                 ['R-squared', r2_score(outcome, fit).round(decimals=4)],
+                 ['RMSE/ SQR(Brier score)', round(np.sqrt(((outcome - fit).dot(outcome - fit)) / len(outcome)), 4)],
+                 ['Log loss', lr_log_loss],
+                 ['Binomial p-value', binom_p],
+                 ['Jeffreys p-value', Jeffreys_p]]
+    the_table = pd.DataFrame(data=the_table)
+    the_table.columns = ['Metric', 'Value']
+
+    ### Plots de desempeño del modelo
+    plt.subplots_adjust(hspace=0.4, wspace=0.4)
+    plt.subplot(221)
+    plt.title('Summary')
+    plt.axis('off')
+    plt.axis('tight')
+    test = plt.table(cellText=the_table.values, colLabels=the_table.columns, loc='center', cellLoc='center',
+                     colWidths=[0.34, 0.2])
+    test.auto_set_font_size(False)
+    test.set_fontsize(16)
+    test.scale(2, 1.5)
+
+    # Graficar serie de tiempo con la predicción del modelo comparando con la variable dependiente real
+    plt.subplot(222)
+    plt.title('Time-Series Real-Fit')
+    plt.plot(means['time'], means['outcome'])
+    plt.plot(means['time'], means['fit'], color='red', ls='dashed')
+    plt.xlabel('Time', fontsize=15)
+    plt.ylabel('Mean', fontsize=15)
+    plt.tick_params(axis='both', labelsize=13)
+    plt.legend(('Outcome', 'Fit'), loc='best', fontsize=15)
+
+    # Distribución de la probabilidad estimada de default
+    plt.subplot(223)
+    plt.title('Fit Histogram')
+    plt.hist(fit, bins=20, histtype='bar', density=True)
+    plt.xlabel('Fit', fontsize=15)
+    plt.ylabel('Frequency', fontsize=15)
+    plt.tick_params(axis='both', labelsize=13)
+
+    data_in['cat'] = pd.qcut(data_in.fit, 10, labels=False, duplicates='drop')
+    real_fit = data_in.groupby('cat')[['fit', 'outcome']].mean()
+    mpv = real_fit.fit.values
+    fop = real_fit.outcome.values
+
+    maximum = np.maximum(max(fop), max(mpv))
+    maximum = np.ceil(maximum * 100) / 100
+    minimum = np.minimum(min(fop), min(mpv))
+    minimum = np.floor(minimum * 100) / 100
+
+    # Relación de media de probalidad estimada y real
+    plt.subplot(224)
+    plt.title('Calibration Curve')
+    plt.plot(mpv, fop, marker='.', linestyle='', markersize=18)
+    plt.plot([minimum, maximum], [minimum, maximum], linestyle='--', color='gray')
+    plt.xlim((minimum, maximum))
+    plt.ylim((minimum, maximum))
+    plt.xlabel('Mean fit', fontsize=15)
+    plt.ylabel('Mean outcome', fontsize=15)
+    plt.tick_params(axis='both', labelsize=13)
+    plt.show()
+
+
+def corr_plot(data, variables):
+    """
+    Generar mapa de calor de correlación entre las variables seleccionadas
+
+    :param data: pandas dataframe
+    :param variables: list de strings
+    :return: corrplot
+    """
+    corr = data[variables].corr()
+
+    # Generate a mask for the upper triangle
+    mask = np.triu(np.ones_like(corr, dtype=bool))
+
+    # Set up the matplotlib figure
+    f, ax = plt.subplots(figsize=(6, 5))
+
+    # Generate a custom diverging colormap
+    cmap = sns.diverging_palette(230, 20, as_cmap=True)
+
+    # Draw the heatmap with the mask and correct aspect ratio
+    sns.heatmap(corr, mask=mask, cmap=cmap, vmax=.3, center=0,
+                square=True, linewidths=.5, cbar_kws={"shrink": .5})
+
+    
