@@ -64,3 +64,70 @@ def estim_prob(data, variables, default = 'default_time'):
 
 
 
+def potencia(d, sim=False, MAX=100):
+    """
+    Método de la potencia para encontrar eigenvector de máximo módulo matrices cuadradas (simétricas) o no
+    - input:
+    - d(dataframe): matriz
+    - simetrica(boolean): indica si la matriz input es cuadrada y simétrica
+    - MAX(int): máximas evaluaciones del método de la potencia
+    - output(array):
+    - eil(array): evolución hacia el eigenvalor de máximo módulo
+    - v(vector): eigenvector asociado a eigenvalor máximo modulo asociado
+    Pseudoalgoritmo obtenido de la nota 2.3
+    """
+
+    # Definimos los parámetros de entrada y las dimensiones de nuestro data set
+    if not sim:
+        X = d @ d.T
+    else:
+        X = d
+    n = X.shape[0]
+
+    # Condiciones iniciales
+    np.random.seed(2020)
+    q_k = np.random.rand(n)
+    lambda_k_iter = np.zeros(MAX)
+
+    # Método de la potencia
+    for k in range(MAX):
+        # Paso de la potencia
+        z_k = X @ q_k
+
+        # Normalizamos el vector
+        q_k = z_k / np.linalg.norm(z_k)
+
+        # Calculamos eigenvalor de máximo módulo
+        lambda_k = q_k.T @ X @ q_k
+        lambda_k_iter[k] = lambda_k
+
+    return lambda_k_iter, q_k
+
+
+
+
+def second_potencia(d, MAX=100):
+    """
+    Método de la potencia para encontrar eigenvector asociado al segundo eigenvalor de
+    máximo módulo para matrices simétricas
+    - input:
+    - d(dataframe): matriz no cuadrada
+    - MAX(int): máximas evaluaciones del método de la potencia
+    - output(array):
+    - v(vector): eigenvector asociado a eigenvalor máximo modulo asociado
+    Pseudoalgoritmo obtenido de la nota 2.3
+    """
+
+    # Eliminamos el eigenvalor de máximo módulo
+    eig_1, eiv_1 = potencia(d)
+
+    # Definimos los parámetros de entrada y las dimensiones de nuestro data set
+    X = d @ d.T
+
+    # Calculamos matriz actualizada sin el eigenvalor de máximo módulo
+    X = X - eig_1[-1] * np.outer(eiv_1, eiv_1)
+
+    # Calculamos eigenvector de máximo módulo
+    eig_2, eiv_2 = potencia(X, True)
+
+    return eig_2, eiv_2
