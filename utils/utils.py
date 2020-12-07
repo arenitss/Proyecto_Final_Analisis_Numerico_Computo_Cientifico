@@ -7,6 +7,8 @@ from sklearn.metrics import classification_report,confusion_matrix, r2_score, ma
     precision_score, recall_score,f1_score, log_loss
 from scipy.stats import binom, beta, expon, mvn, shapiro, ttest_ind, bernoulli, binom_test, \
     pearsonr
+import cvxpy as cp
+
 
 
 def woe(data_in, target, variable, bins, binning):
@@ -40,23 +42,22 @@ def woe(data_in, target, variable, bins, binning):
     table = table.rename(columns={1: 'deft', 0: 'nondeft'}).reset_index(drop=False)
 
     # Agregar frecuencia relativa de default y no default
-    table.loc[:, 'fracdeft'] = table.deft /np.sum(table.deft)
-    table.loc[:, 'fracnondeft'] = table.nondeft /np.sum(table.nondeft)
+    table.loc[:, 'fracdeft'] = table.deft/np.sum(table.deft)
+    table.loc[:, 'fracnondeft'] = table.nondeft/np.sum(table.nondeft)
 
     # Cálculo del WOE y del IV
-    table.loc[:, 'WOE'] = np.log(table.fracdeft /table.fracnondeft)
-    table.loc[:, 'IV'] = (table.fracdeft -table.fracnondeft ) *table.WOE
+    table.loc[:, 'WOE'] = np.log(table.fracdeft/table.fracnondeft)
+    table.loc[:, 'IV'] = (table.fracdeft - table.fracnondeft)*table.WOE
 
     # Renombrar variables
     table.rename(columns={'WOE': variable}, inplace=True)
-    table =table.add_suffix('_WOE')
+    table = table.add_suffix('_WOE')
     table.rename(columns={table.columns[0]: 'key' }, inplace = True)
 
     # Construcción de dataset WOE
-    WOE = table.iloc[:, [0 ,-2]]
+    WOE = table.iloc[:, [0, -2]]
     df = pd.merge(df, df2.key, right_index=True, left_index=True)
     outputWOE = pd.merge(df, WOE, on='key').drop(['key'], axis=1)
-    # outputWOE = pd.merge(df, WOE, on='key')
     outputIV = pd.DataFrame(data={'name': [variable], 'IV': table.IV_WOE.sum()})
 
     return outputWOE, outputIV
@@ -227,7 +228,6 @@ def corr_plot(data, variables):
     sns.heatmap(corr, mask=mask, cmap=cmap, vmax=.3, center=0,
                 square=True, linewidths=.5, cbar_kws={"shrink": .5})
 
-
 def potencia(d, sim=False, MAX=100):
     """
     Método de la potencia para encontrar eigenvector de máximo módulo matrices cuadradas (simétricas) o no
@@ -297,3 +297,65 @@ def second_potencia(d, MAX=100):
     eig_2, eiv_2 = potencia(X, True)
 
     return eig_2, eiv_2
+
+
+def logistic_model(data, variables, default = "default_time"):
+    """
+    Obtención del modelo de regresión logística resolviendo un problema de optimización (minimización) convexo
+    :param data(dataframe): dataframe con variables a analizar
+    :param variables(list): variables a incluir en el modelo de regresión logística, debe incluir variable dependiente
+                      e independientes
+    :param default(str): variable dependiente
+    :return beta(array): vector de parámetros obtenidos del problema de optimización convexa
+    """
+
+    # Selección de features
+    data = data[variables]
+    m, n = data.shape
+
+    # Selección de variable dependiente (para este proyecto siempre es default_time
+    classes = data[default].copy()
+
+    # Quitar variable dependiente al dataset
+    data = data.drop([default], axis=1)
+
+    # Agregamos columna de 1's para el intercepto (beta_0)
+    data = np.column_stack((np.ones((m, 1)), data))
+
+    # Número de variables (se agrega beta_0 o intercepto)
+    n = n + 1
+
+    # Variable de optimización
+    beta = cp.Variable(n)
+
+    # Planteamos y resolvemos problema de optimización convexo
+    fo_cvxpy = 2 * cp.sum(cp.logistic(data @ beta) - cp.multiply(classes, data @ beta))
+    obj = cp.Minimize(fo_cvxpy)
+    prob = cp.Problem(obj)
+
+    print('Evaluación de valor óptimo al resolver problema de optimización', prob.solve())
+
+    return beta.value, data
+
+def estim_prob(data, variables, default = 'default_time'):
+    """
+    Obtención de estimación de probabilidades utilizando un modelo de regresión logístico y metodología de
+    optimización convexa
+    :param data: dataframe con variables a analizar
+    :param variables: variables a incluir en el modelo de regresión logística, debe incluir variable dependiente
+                      e independientes
+    :param default: variable dependiente
+    :return fitted_values: estimación de probabilidadees
+    """
+
+    # Obtención de parámetros estimados
+    model, data = logistic_model(data, variables)
+
+    # Evaluación lineal del modelo
+    linear_value = -data.dot(beta.value)
+
+    # Estimación de probabilidad
+    fitted_values = 1 / (1 + np.exp(linear_value))
+
+    return fitted_values
+
