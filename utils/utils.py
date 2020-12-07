@@ -152,35 +152,15 @@ def validation(fit, outcome, time, continuous=False):
     the_table = pd.DataFrame(data=the_table)
     the_table.columns = ['Metric', 'Value']
 
-    ### Plots de desempeño del modelo
-    plt.subplots_adjust(hspace=0.4, wspace=0.4)
-    plt.subplot(221)
-    plt.title('Summary')
-    plt.axis('off')
-    plt.axis('tight')
-    test = plt.table(cellText=the_table.values, colLabels=the_table.columns, loc='center', cellLoc='center',
-                     colWidths=[0.34, 0.2])
-    test.auto_set_font_size(False)
-    test.set_fontsize(16)
-    test.scale(2, 1.5)
-
     # Graficar serie de tiempo con la predicción del modelo comparando con la variable dependiente real
     plt.subplot(222)
     plt.title('Time-Series Real-Fit')
     plt.plot(means['time'], means['outcome'])
     plt.plot(means['time'], means['fit'], color='red', ls='dashed')
-    plt.xlabel('Time', fontsize=15)
-    plt.ylabel('Mean', fontsize=15)
-    plt.tick_params(axis='both', labelsize=13)
-    plt.legend(('Outcome', 'Fit'), loc='best', fontsize=15)
-
-    # Distribución de la probabilidad estimada de default
-    plt.subplot(223)
-    plt.title('Fit Histogram')
-    plt.hist(fit, bins=20, histtype='bar', density=True)
-    plt.xlabel('Fit', fontsize=15)
-    plt.ylabel('Frequency', fontsize=15)
-    plt.tick_params(axis='both', labelsize=13)
+    plt.xlabel('Time')
+    plt.ylabel('Mean')
+    plt.tick_params(axis='both')
+    plt.legend(('Outcome', 'Fit'), loc='best')
 
     data_in['cat'] = pd.qcut(data_in.fit, 10, labels=False, duplicates='drop')
     real_fit = data_in.groupby('cat')[['fit', 'outcome']].mean()
@@ -193,15 +173,15 @@ def validation(fit, outcome, time, continuous=False):
     minimum = np.floor(minimum * 100) / 100
 
     # Relación de media de probalidad estimada y real
-    plt.subplot(224)
+    plt.subplot(223)
     plt.title('Calibration Curve')
-    plt.plot(mpv, fop, marker='.', linestyle='', markersize=18)
+    plt.plot(mpv, fop, marker='.', linestyle='')
     plt.plot([minimum, maximum], [minimum, maximum], linestyle='--', color='gray')
     plt.xlim((minimum, maximum))
     plt.ylim((minimum, maximum))
-    plt.xlabel('Mean fit', fontsize=15)
-    plt.ylabel('Mean outcome', fontsize=15)
-    plt.tick_params(axis='both', labelsize=13)
+    plt.xlabel('Mean fit')
+    plt.ylabel('Mean outcome')
+    plt.tick_params(axis='both')
     plt.show()
 
 
@@ -228,12 +208,12 @@ def corr_plot(data, variables):
     sns.heatmap(corr, mask=mask, cmap=cmap, vmax=.3, center=0,
                 square=True, linewidths=.5, cbar_kws={"shrink": .5})
 
-def potencia(d, sim=False, MAX=100):
+def potencia(d, cor=True, MAX=150):
     """
     Método de la potencia para encontrar eigenvector de máximo módulo matrices cuadradas (simétricas) o no
     - input:
     - d(dataframe): matriz
-    - simetrica(boolean): indica si la matriz input es cuadrada y simétrica
+    - cor(boolean): indica si la matriz input es de covarianza
     - MAX(int): máximas evaluaciones del método de la potencia
 
     - output(array):
@@ -244,8 +224,8 @@ def potencia(d, sim=False, MAX=100):
     """
 
     # Definimos los parámetros de entrada y las dimensiones de nuestro data set
-    if not sim:
-        X = d @ d.T
+    if not cor:
+        X = np.cov(d)
     else:
         X = d
     n = X.shape[0]
@@ -270,7 +250,7 @@ def potencia(d, sim=False, MAX=100):
     return lambda_k_iter, q_k
 
 
-def second_potencia(d, MAX=100):
+def deflacion(d, MAX=150):
     """
     Método de la potencia para encontrar eigenvector asociado al segundo eigenvalor de
     máximo módulo para matrices simétricas
@@ -285,10 +265,11 @@ def second_potencia(d, MAX=100):
     """
 
     # Eliminamos el eigenvalor de máximo módulo
-    eig_1, eiv_1 = potencia(d)
+    eig_1, eiv_1 = potencia(d, True)
 
     # Definimos los parámetros de entrada y las dimensiones de nuestro data set
-    X = d @ d.T
+    #X = d @ d.T
+    X = d
 
     # Calculamos matriz actualizada sin el eigenvalor de máximo módulo
     X = X - eig_1[-1] * np.outer(eiv_1, eiv_1)
@@ -359,4 +340,3 @@ def estim_prob(data, variables, default = 'default_time'):
     fitted_values = 1 / (1 + np.exp(linear_value))
 
     return fitted_values, model
-
