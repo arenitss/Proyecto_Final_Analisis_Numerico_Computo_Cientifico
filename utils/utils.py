@@ -311,13 +311,14 @@ def logistic_model(data, variables, default = "default_time"):
 
     # Selección de features
     data = data[variables]
-    m, n = data.shape
 
     # Selección de variable dependiente (para este proyecto siempre es default_time
     classes = data[default].copy()
 
     # Quitar variable dependiente al dataset
     data = data.drop([default], axis=1)
+    m, n = data.shape
+    print(m)
 
     # Agregamos columna de 1's para el intercepto (beta_0)
     data = np.column_stack((np.ones((m, 1)), data))
@@ -352,10 +353,10 @@ def estim_prob(data, variables, default = 'default_time'):
     model, data = logistic_model(data, variables)
 
     # Evaluación lineal del modelo
-    linear_value = -data.dot(beta.value)
+    linear_value = -data.dot(model)
 
     # Estimación de probabilidad
     fitted_values = 1 / (1 + np.exp(linear_value))
 
-    return fitted_values
+    return fitted_values, model
 
