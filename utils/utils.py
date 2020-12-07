@@ -5,7 +5,7 @@ import seaborn as sns
 from sklearn.metrics import classification_report,confusion_matrix, r2_score, make_scorer, \
     mean_squared_error, mean_absolute_error,roc_curve,accuracy_score,roc_auc_score,brier_score_loss, \
     precision_score, recall_score,f1_score, log_loss
-from scipy.stats import binom, beta, expon, mvn, randint as sp_randint, shapiro, ttest_ind, bernoulli, binom_test, \
+from scipy.stats import binom, beta, expon, mvn, shapiro, ttest_ind, bernoulli, binom_test, \
     pearsonr
 
 
