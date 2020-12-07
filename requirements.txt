@@ -1,0 +1,9 @@
+#Paqueteria necesaria
+
+numpy
+pandas
+cvxpy
+pytest
+statsmodels.formula.api
+statsmodels.api
+logisticregression_pca
