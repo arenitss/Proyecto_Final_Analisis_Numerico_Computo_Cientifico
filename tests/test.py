@@ -4,12 +4,14 @@ from pytest import approx
 import statsmodels.formula.api as smf
 import statsmodels.api as sm
 from logisticregression_pca import estim_prob
+from logisticregression_pca import potencia
+from logisticregression_pca import second_potencia
 
 # Lectura de base de datos
 df = pd.read_csv('data_t_final.csv')
 df = df.dropna(subset=['time','orig_time','first_time']).copy()
 
-# Lextura de base de datos para PCA
+# Lectura de base de datos para PCA
 defaultrates_states1 = df.groupby(['time','state_orig_time'])['default_time'].mean().unstack(level=1).add_prefix('defaultrate_').fillna(0).reset_index(drop=False)
 scaler = StandardScaler()
 defaultrates_states = scaler.fit_transform(defaultrates_states1)
@@ -32,5 +34,5 @@ pca.fit(defaultrates_states)
 z = pca.transform(defaultrates_states)
 
 
-## print(z[:,0]== approx(
-## print(z[:,1]== approx(
+print(z[:,0]== approx(np.array(potencia(defaultrates_states, sim=False, MAX=100)))
+print(z[:,1]== approx(np.array(second_potencia(defaultrates_states, MAX=100)))
