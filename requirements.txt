@@ -4,6 +4,5 @@ numpy
 pandas
 cvxpy
 pytest
-statsmodels.formula.api
-statsmodels.api
+statsmodels
 logisticregression_pca
