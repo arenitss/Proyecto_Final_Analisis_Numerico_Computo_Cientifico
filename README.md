@@ -24,7 +24,7 @@ Se utilizará la información de 60 trimestres de 5000 créditos hipotecarios de
 
 a. Análisis exploratorio de la base de datos.
 
-b. Selección de variables usando distintas herramientas: "Feature Enginering".
+b. Reducción de dimensiones de la base de datos utilizando PCA.
 	
 c. Modelo de Regresión Logística para obtención de Probabilidades de incumplimiento en el tiempo.
 	
@@ -49,13 +49,6 @@ Python y AWS
 
 
 
-
-* [**LIGA AL REPOSITORIO**](https://github.com/arenitss/analisis-numerico-computo-cientifico).
-
-
-
-
-
 ## Integrantes y asignación de tareas del equipo
 
 |User | Nombre Completo| Tarea |
@@ -64,5 +57,11 @@ Python y AWS
 |@Eduardo-Moreno|Eduardo Moreno|Investigación de variables, hardcodear código, implementación metodología, responder preguntas
 |@yefovar|Yedam Fortiz|Testing, estudio de parte matemática, expositor
 |@arenitss|Nayeli Arenas|Redacción, revisón de resultados, expositor
+
+
+
+
+[**LIGA AL REPOSITORIO**](https://github.com/arenitss/analisis-numerico-computo-cientifico).
+
 
 
