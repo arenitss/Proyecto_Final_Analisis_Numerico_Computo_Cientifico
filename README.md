@@ -1,5 +1,10 @@
 # Estimación de probabilidades de incumplimiento en el tiempo
 
+[**LIGA AL REPOSITORIO**](https://github.com/arenitss/analisis-numerico-computo-cientifico).
+
+
+
+
 ## Introducción
 
 La obtención de probabilidades de incumplimiento es una parte fundamental en la toma de decisiones en las instituciones de crédito. La probabilidad de incumplimiento se define, en general, como la probabilidad de que un acreditado no cumpla con las obligaciones de su crédito durante 90 días o más. En este trabajo se mostrará una forma de calcular dichas probabilidades y se contrastara con la forma de calcular probabilidades de incumplimento para realizar Credit Scoring de créditos hipotecarios.
@@ -20,6 +25,7 @@ Se utilizará la información de 60 trimestres de 5000 créditos hipotecarios de
 
 
 
+
 ### 3. Temas
 
 a. Análisis exploratorio de la base de datos.
@@ -31,6 +37,7 @@ c. Modelo de Regresión Logística para obtención de Probabilidades de incumpli
 d. Modelo de Regresión para uso en Credit Scoring (sobre el mapeo de WOEś).
 	
 e. Conclusiones
+
 
 
 
@@ -57,11 +64,3 @@ Python y AWS
 |@Eduardo-Moreno|Eduardo Moreno|Investigación de variables, hardcodear código, implementación metodología, responder preguntas
 |@yefovar|Yedam Fortiz|Testing, estudio de parte matemática, expositor
 |@arenitss|Nayeli Arenas|Redacción, revisón de resultados, expositor
-
-
-
-
-[**LIGA AL REPOSITORIO**](https://github.com/arenitss/analisis-numerico-computo-cientifico).
-
-
-
