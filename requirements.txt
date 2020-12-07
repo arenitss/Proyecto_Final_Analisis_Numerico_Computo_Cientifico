@@ -5,4 +5,3 @@ pandas
 cvxpy
 pytest
 statsmodels
-logisticregression_pca
