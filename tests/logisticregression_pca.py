@@ -101,7 +101,7 @@ def potencia(d, sim=False, MAX=100):
         lambda_k = q_k.T @ X @ q_k
         lambda_k_iter[k] = lambda_k
 
-    return lambda_k_iter, q_k
+    return q_k
 
 
 
@@ -130,4 +130,4 @@ def second_potencia(d, MAX=100):
     # Calculamos eigenvector de máximo módulo
     eig_2, eiv_2 = potencia(X, True)
 
-    return eig_2, eiv_2
+    return eiv_2
