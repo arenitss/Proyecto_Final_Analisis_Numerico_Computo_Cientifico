@@ -32,8 +32,6 @@ c. Modelo de Regresión Logística para obtención de Probabilidades de incumpli
 	
 	c.3 Análisis de medidas de validación.
 	
-	c.4 Proyección o estimación.
-	
 d. Modelo de Regresión para uso en Credit Scoring (sobre el mapeo de WOEś).
 	
 	d.1 Selección de Técnica.
@@ -42,22 +40,14 @@ d. Modelo de Regresión para uso en Credit Scoring (sobre el mapeo de WOEś).
 	
 	d.3 Análisis de medidas de validación.
 	
-	d.5 Transformación a scorecards.
-	
 e. Conclusiones
-
-
 
 ### 4. Software
 Python y AWS
 
-
-
 ### 5. Bibliografía:
 Rosch Daniel, Scheule Harald. Deep Credit Risk. 2020. Amazon Fulfillment, Polonia.
 Siddiqi, Naeem. Credit Risk Scorecards, Developing and Implementing Credit Scoring. 2006. Wiley, New Jersey 
-
-
 
 ## Integrantes del equipo
 
