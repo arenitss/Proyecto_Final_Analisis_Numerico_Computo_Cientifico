@@ -1,23 +1,17 @@
-# Estimación de probabilidades de incumplimiento en el tiempo
+# Modelos para la estimación de probabilidades de incumplimiento
 
 ## Introducción
 
-La obtención de probabilidades de incumplimiento es una parte fundamental en la toma de decisiones en las instituciones de crédito. La probabilidad de incumplimiento se define en general como la probabilidad de que un acreditado no cumpla con las obligaciones de su crédito durante 90 días o más. Generalmente se cree que la probabilidad de incumplimiento es una cantidad que puede ser como una etiqueta y que esa misma etiqueta puede usarse para definir tasas de productos (pricing), análisis temporal o credit scoring. En este trabajo se mostrará una forma de calcular probabilidades en el tiempo y contrastarla con la forma de calcular probabilidades de incumplimento para realizar Credit Scoring de créditos hipotecarios.
-
-
-
+La obtención de probabilidades de incumplimiento es una parte fundamental en la toma de decisiones en las instituciones de crédito. La **probabilidad de incumplimiento** se define en general como la probabilidad de que un acreditado no cumpla con las obligaciones de su crédito durante $90$ días o más. Generalmente se cree que la probabilidad de incumplimiento es una cantidad que puede ser tomada como una etiqueta y que esa misma etiqueta puede usarse para definir tasas de productos (*pricing*), análisis temporal o credit scoring. En este trabajo se mostrarán $2$ metodologías para calcular probabilidad de incumplimiento en el tiempo.
 
 ### 1. Objetivo:
 
-Análisis de las Probabilidades de Incumplimiento de créditos hipotecarios de Estados Unidos para identificar periodos de crisis y propuesta de credit scoring, mediante el uso de las herramientas vistas en el curso de Análisis Numérico y Computo Científico.
-
-
-
+Comparar modelos obtenidos por metodologías distintas (vistas en el curso *vs* metodologías implementadas en módulos de `Python`), los cuales permiten calcular la estimación de probabilidades de incumplimiento. Se tomará como referencia los modelos obtenidos 
+del módulo [`statsmodel.api`](https://www.statsmodels.org/stable/examples/notebooks/generated/glm_formula.html).
 
 ### 2. Datos:
 
 Se utilizará la información de 60 trimestres de 5000 créditos hipotecarios de Estados Unidos tomada de protafolios bursatilizado (RMBSs) a partir del año 2000 (hasta 2015). El proveedor de la base es el International Financial Reasearch (www.internationalfinancialreaserch.org), y se tiene acceso a ella por la adquisición del libro Deep Credit Risk de Daniel Rosch y Harald Scheule, que es la principal fuente de este trabajo.
-
 
 
 ### 3. Temas
