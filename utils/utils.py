@@ -9,8 +9,6 @@ from scipy.stats import binom, beta, expon, mvn, shapiro, ttest_ind, bernoulli, 
     pearsonr
 import cvxpy as cp
 
-
-
 def woe(data_in, target, variable, bins, binning):
     """
     Cómputo del Weight of Evidence (woe)
