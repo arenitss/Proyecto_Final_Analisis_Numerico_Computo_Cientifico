@@ -340,3 +340,70 @@ def estim_prob(data, variables, default = 'default_time'):
     fitted_values = 1 / (1 + np.exp(linear_value))
 
     return fitted_values, model
+
+def grafica_medias(fit, outcome , time, continuous=False):
+    """
+    Grafica los valores  promedio de las PDś en el tiempo contra las del modelo
+
+    :param fit: vector de observaciones estimadas
+    :param outcome: vector de observaciones reales
+    :param time: vector de tiempos en trimestres
+    :param continuous: indicadora de caso continuio
+    :return: plot
+    """
+    # Juntar la información en un DataFrame
+    fitP=pd.DataFrame(data=fit)
+    outcomeP=pd.DataFrame(data=outcome)
+    timeP=pd.DataFrame(data=time)
+    data_in = pd.concat([fitP, outcomeP, timeP], axis=1)
+    data_in.columns = ['fit', 'outcome', 'time']
+    means = data_in.groupby('time')[['fit', 'outcome']].mean().reset_index(drop=False)
+
+    # Plot
+    plt.title('Comparación de medias de las probabilidades de incumplimiento en el tiempo')
+    plt.plot(means['time'],means['outcome'])
+    plt.plot(means['time'],means['fit'], color='red', ls='dashed')
+    plt.xlabel('Tiempos', fontsize=15)
+    plt.ylabel('Media', fontsize=15)
+    plt.tick_params(axis='both', labelsize=13)
+    plt.legend(('Reales','Ajustadas'), loc='best', fontsize=15)
+
+
+def grafica_ajuste(fit, outcome, time, continuous=False):
+    """
+    Grafica para revisar la calidad del ajuste
+
+    :param fit:
+    :param outcome:
+    :param time:
+    :param continuous:
+    :return:
+    """
+
+    # Juntar la información en un DataFrame
+    fitP = pd.DataFrame(data=fit)
+    outcomeP = pd.DataFrame(data=outcome)
+    timeP = pd.DataFrame(data=time)
+    data_in = pd.concat([fitP, outcomeP, timeP], axis=1)
+    data_in.columns = ['fit', 'outcome', 'time']
+    data_in['cat'] = pd.qcut(data_in.fit, 10, labels=False, duplicates='drop')
+    real_fit = data_in.groupby('cat')[['fit', 'outcome']].mean()
+    mpv = real_fit.fit.values
+    fop = real_fit.outcome.values
+
+    # Obtener escalas de los ejes (maximo y minimo a mostrar)
+    maximum = np.maximum(max(fop), max(mpv))
+    maximum = np.ceil(maximum * 100) / 100
+    minimum = np.minimum(min(fop), min(mpv))
+    minimum = np.floor(minimum * 100) / 100
+
+    # Graficar
+    plt.title('Revisión de calibración')
+    plt.plot(mpv, fop, marker='.', linestyle='', markersize=20)
+    plt.plot([minimum, maximum], [minimum, maximum], linestyle='--', color='gray')
+    plt.xlim((minimum, maximum))
+    plt.ylim((minimum, maximum))
+    plt.xlabel('Media de las pdś ajustadas', fontsize=15)
+    plt.ylabel('Media da las pds reales', fontsize=15)
+    plt.tick_params(axis='both', labelsize=13)
+    plt.show()
