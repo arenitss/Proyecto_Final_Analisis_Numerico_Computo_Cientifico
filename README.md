@@ -49,13 +49,13 @@ Python y AWS
 Rosch Daniel, Scheule Harald. Deep Credit Risk. 2020. Amazon Fulfillment, Polonia.
 Siddiqi, Naeem. Credit Risk Scorecards, Developing and Implementing Credit Scoring. 2006. Wiley, New Jersey 
 
-## Integrantes del equipo
+### Integrantes y asignación de tareas del equipo
 
-|User | Nombre Completo|Tarea|
+|User | Nombre Completo| Tarea |
 |:---:|:---:|:---:|
-|@oaperez3|Oscar Perez|Programacion y resolucion de problema|
-|@Eduardo-Moreno|Eduardo Moreno|Por determinar|
-|@yefovar|Yedam Fortiz|Por determinar|
-|@arenitss|Nayeli Arenas|Por determinar|
+|@oaperez3|Oscar Perez|Project manager, levantamiento de instancia en AWS, implementación de metodología, responder preguntas
+|@Eduardo-Moreno|Eduardo Moreno|Investigación de variables, implementación metodología, responder preguntas
+|@yefovar|Yedam Fortiz|Testing, estudio de parte matemática, expositor
+|@arenitss|Nayeli Arenas|Redacción, revisón de resultados, expositor
 
 
