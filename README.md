@@ -1,4 +1,4 @@
-# Estimación de probabilidades de incumplimiento en el tiempo
+# Estimación de probabilidades de incumplimiento
 
 [**Repositorio del proyecto**](https://github.com/arenitss/analisis-numerico-computo-cientifico)
 
