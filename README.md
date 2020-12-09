@@ -1,6 +1,6 @@
 # Estimación de probabilidades de incumplimiento
 
-[**Repositorio del proyecto**](https://github.com/arenitss/analisis-numerico-computo-cientifico)
+[**Repositorio del proyecto**](https://github.com/arenitss/Proyecto_Final_Analisis_Numerico_Computo_Cientifico)
 
 
 ## Introducción
