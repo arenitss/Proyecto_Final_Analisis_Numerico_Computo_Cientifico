@@ -5,3 +5,4 @@ pandas
 cvxpy
 pytest
 statsmodels
+sklearn
