@@ -47,3 +47,4 @@ Las carpetas incluídas en el repositorio contienen la siguiente información:
 * [utils](https://github.com/arenitss/Proyecto_Final_Analisis_Numerico_Computo_Cientifico/tree/main/utils): contiene todas las funciones implementadas por los integrantes del equipo.
 * [test](https://github.com/arenitss/Proyecto_Final_Analisis_Numerico_Computo_Cientifico/tree/main/tests): archivos `.py` que implementan las pruebas unitarias a las funciones creadas para la resolución del problema de optimización convexo y de cálculo de eigenvalores y eigenvectores.
 * [Reporte](https://github.com/arenitss/Proyecto_Final_Analisis_Numerico_Computo_Cientifico/tree/main/Reporte): reporte escrito del proyecto
+* [presentacion](https://github.com/arenitss/Proyecto_Final_Analisis_Numerico_Computo_Cientifico/tree/main/presentacion): presentación del proyecto
