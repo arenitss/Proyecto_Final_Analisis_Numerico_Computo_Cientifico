@@ -23,7 +23,7 @@ Se utilizará la información de 60 trimestres de 5000 créditos hipotecarios de
 
 ### 4. Software
 * El lenguaje de programación utilizado en este proyecto es `Python` 
-* Se levantó una [instancia **S3**](http://ec2-3-83-103-223.compute-1.amazonaws.com:8888/lab) en AWS, la cual nos apoyó a trabajar de manera "continua" sobre una serie de algoritmos. Para entrar a ella es necesario de una contraseña, se pide pedirla a los respectivos autores de este proyecto.
+* Se levantó una [instancia **EC2**](http://ec2-3-83-103-223.compute-1.amazonaws.com:8888/lab) en AWS, la cual nos apoyó a trabajar de manera "continua" sobre una serie de algoritmos. Para entrar a ella es necesario de una contraseña, se pide pedirla a los respectivos autores de este proyecto.
 
 
 ### 5. Bibliografía:
