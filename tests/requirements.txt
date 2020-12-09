@@ -1,0 +1,8 @@
+#Paqueteria necesaria
+
+numpy
+pandas
+cvxpy
+pytest
+statsmodels
+sklearn
