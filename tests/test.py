@@ -6,6 +6,8 @@ import statsmodels.api as sm
 from utils import estim_prob
 from utils import potencia
 from utils import deflacion
+from sklearn.preprocessing import StandardScaler
+from sklearn.decomposition import PCA
 
 # Lectura de base de datos
 df = pd.read_csv('data_t_final.csv')
